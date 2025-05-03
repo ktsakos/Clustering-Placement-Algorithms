@@ -49,8 +49,8 @@ These algorithms can run individually or in combination (e.g., clustering follow
 Each `exps*.py` script simulates placement strategies under realistic conditions using affinity-based graphs derived from production metrics.
 
 ### Applications Tested
-- 🧭 **iXen** – IoT Sensor platform
-- 🛍️ **Online Boutique** – Cloud-native microservices demo app
+- 🧭 **iXen** – IoT Sensor platform (Repository: [iXen on GitHub](https://github.com/ktsakos/ixen-App-in-GKE))
+- 🛍️ **Online Boutique** – Cloud-native microservices demo app (Repository: [Online Boutique on GitHub](https://github.com/GoogleCloudPlatform/microservices-demo))
 
 > 📁 Each app and its test code are maintained in **separate repositories**.
 
