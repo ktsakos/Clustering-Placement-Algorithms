@@ -56,35 +56,104 @@ Each `exps*.py` script simulates placement strategies under realistic conditions
 
 ---
 
-## 🌐 Deployment Architecture
+## 📝 Detailed Explanation of Each Experiment Script
 
-This system is intended for deployment in a **Kubernetes cluster on GCP** with the following components:
+### 1. **`exps.py`** – **Mock Input Data Testing**
 
-### Required Services
-- ✅ **Istio Service Mesh** with **Envoy sidecar proxies** injected
-- 📊 **Prometheus** for scraping custom metrics
-- 📈 **Kiali** for exporting service topology as a graph
+The `exps.py` script is used to test the execution of clustering algorithms with mock input. It does the following:
 
-### Installation Guides
-- 📘 [Install Istio](https://istio.io/latest/docs/setup/install/istioctl/)
-- 📘 [Install Kiali](https://kiali.io/docs/installation/installation-guide/)
+- **Collects Metrics**:
+  - Uses the `GCP_Metrics` class to fetch resource data, affinity data, and service-to-service traffic from Prometheus and Kiali.
+  
+- **Constructs Service Graph**:
+  - Builds a graph representation of the services in the Kubernetes cluster based on traffic affinity. Nodes represent microservices, and edges represent affinities (traffic patterns).
+  
+- **Runs Clustering Algorithms**:
+  - Applies the following clustering algorithms:
+    - **MST (Maximum Standard Deviation Reduction on Maximum Spanning Tree)**
+    - **Affinity Propagation**
+    - **Markov Clustering**
+  
+- **Bin Packing for Placement**:
+  - After clustering, applies the **bin packing** strategy to optimize the placement of services onto available nodes, considering CPU and RAM resources.
 
-### Traffic Affinity Collection
-- Metrics are collected using **Prometheus counters**
-- Service-to-service affinities are inferred from runtime communication
-- The **application graph** is exported via **Kiali** and parsed to construct input for clustering algorithms
+- **Metrics Calculation**:
+  - Calculates the **traffic reduction** before and after placement based on egress traffic.
+  - Measures **execution time** for both clustering and placement operations.
+  
+- **Outputs**:
+  - **Placement Solution**: Displays the final service placement across nodes.
+  - **Traffic Statistics**: Shows traffic data before and after placement.
+
+**Purpose**: This script helps test clustering algorithms' performance using mock data, observing how different placements impact network traffic.
 
 ---
 
-## ⚙️ Setup Instructions
+### 2. **`exps2.py`** – **Online Boutique Application Testing**
 
-1. **Deploy your microservice applications** with Istio sidecar injection enabled.
-2. Ensure both **Kiali** and **Prometheus** are deployed and configured to:
-   - Monitor service mesh traffic
-   - Export relevant metrics and topology
-3. Configure endpoints for:
-   - **Kiali API access**
-   - **Prometheus API access**
-4. **Edit the `GCP_Metrics` instantiation** in all three `exps.py`, `exps2.py`, and `exps3.py` files with the current IPs and ports for Prometheus and Kiali. Update the following line:
-   ```python
-   GCP_Metrics(vm_external_ip, kiali_port, prometheus_port, namespace)
+The `exps2.py` script is designed to simulate placement experiments using the **Online Boutique** application, a demo microservices app for cloud-native architectures. It performs the following tasks:
+
+- **Collects Metrics**:
+  - Collects metrics and affinity data using Prometheus and Kiali, similar to `exps.py`.
+  
+- **Constructs Service Graph**:
+  - Builds the graph of microservices in the **Online Boutique** app based on traffic affinity data.
+
+- **Runs Clustering Algorithms**:
+  - Executes the same clustering algorithms:
+    - **MST**
+    - **Affinity Propagation**
+    - **Markov Clustering**
+
+- **Bin Packing for Placement**:
+  - Applies **bin packing** to determine the optimal placement of services within the Kubernetes cluster.
+
+- **Metrics Calculation**:
+  - Measures the **traffic reduction** before and after placement.
+  - Tracks **node usage** and **execution time** for each algorithm.
+
+- **Outputs**:
+  - **Placement Solution**: Displays the optimal placement solution after bin packing.
+  - **Traffic and Node Statistics**: Prints the traffic data before and after placement along with resource usage statistics.
+
+**Purpose**: This script tests the impact of clustering and bin packing algorithms on placement in a real-world demo application like **Online Boutique**.
+
+---
+
+### 3. **`exps3.py`** – **iXen IoT Platform Testing**
+
+The `exps3.py` script is used to simulate placement experiments for the **iXen IoT Sensor Platform**, designed for constrained environments with IoT devices. This script works similarly to `exps2.py`, but specifically for the IoT platform. It includes the following steps:
+
+- **Collects Metrics**:
+  - Collects affinity data and metrics for the **iXen IoT platform** using Prometheus and Kiali.
+  
+- **Constructs Service Graph**:
+  - Builds the service graph based on the affinities and traffic patterns specific to the **iXen IoT platform**.
+
+- **Runs Clustering Algorithms**:
+  - Applies the same clustering algorithms:
+    - **MST**
+    - **Affinity Propagation**
+    - **Markov Clustering**
+
+- **Bin Packing for Placement**:
+  - Uses **bin packing** after clustering to optimize service placement based on available resources in the Kubernetes cluster.
+
+- **Metrics Calculation**:
+  - Calculates **traffic reduction (egress)** before and after placement.
+  - Computes **resource usage** (CPU and RAM) and **execution time** for each approach.
+
+- **Outputs**:
+  - **Placement Solution**: Displays the final placement of services after bin packing.
+  - **Traffic Statistics**: Prints the egress traffic reduction before and after placement.
+
+**Purpose**: This script helps evaluate the effectiveness of clustering and placement algorithms in optimizing service placement for IoT environments, where network and resource constraints are often present.
+
+---
+
+### 📌 **Note on `GCP_Metrics` Class Usage**:
+
+In all three experiment scripts, the `GCP_Metrics` class should be instantiated with the current IPs and ports for **Prometheus** and **Kiali**. Here's the format for instantiation:
+
+```python
+GCP_Metrics(vm_external_ip, kiali_port, prometheus_port, namespace)
