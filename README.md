@@ -65,4 +65,22 @@ This system is intended for deployment in a **Kubernetes cluster on GCP** with t
 
 ### Installation Guides
 - 📘 [Install Istio](https://istio.io/latest/docs/setup/install/istioctl/)
-- 📘 [Install Kiali](https)
+- 📘 [Install Kiali](https://kiali.io/docs/installation/installation-guide/)
+
+### Traffic Affinity Collection
+- Metrics are collected using **Prometheus counters**
+- Service-to-service affinities are inferred from runtime communication
+- The **application graph** is exported via **Kiali** and parsed to construct input for clustering algorithms
+
+---
+
+## ⚙️ Setup Instructions
+
+1. **Deploy your microservice applications** with Istio sidecar injection enabled.
+2. Ensure both **Kiali** and **Prometheus** are deployed and configured to:
+   - Monitor service mesh traffic
+   - Export relevant metrics and topology
+3. Configure endpoints for:
+   - **Kiali API access**
+   - **Prometheus API access**
+4. Clone this repository and install Python dependencies:
