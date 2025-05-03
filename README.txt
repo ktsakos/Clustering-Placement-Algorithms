@@ -1,9 +1,68 @@
-Instruction for Graph Clustering implementation
+# 📦 Clustering and Placement Algorithms for Microservices
 
-1)mst.py -> Maximum Standard Deviation Reduction MSDR algorithm implementation
-2)Bin_Packing.py-> Heuristic Packing Implementation
-3)ap.py -> Affinity propagation algorithm implementation
-4)markov.py -> markov Clusteringn algorithm implementation
-5)GCP_Metrics.py -> python class for collecting all needed data from Kiali and Prometheus
-6) Application_graph.py -> Python class for constructing the graph of each app
-7) exps.py -> 3 files calling all the above classes and extracting the placement decision derived by each clustering algorithm with and without heuristic packing as a second step. Also the egress traffic reduciton, the number of nodes needed and the execution time of each algorithm are calculated.
+This repository hosts the **Graph Clustering and Placement Algorithms** developed during my **MSc thesis** research. These algorithms aim to optimize the placement of microservices in Kubernetes clusters by leveraging traffic affinity data obtained at runtime.
+
+---
+
+## 🎓 MSc Thesis
+
+_This work is conducted in the context of my MSc thesis._
+
+👉 **[Thesis Document – Link to be added here]**
+
+---
+
+## 🧠 Implemented Algorithms
+
+This codebase includes both standalone and combined implementations of microservice clustering and packing strategies:
+
+### Clustering Algorithms
+- **Maximum Standard Deviation Reduction on Maximum Spanning Tree (MSDR)**
+- **Affinity Propagation**
+- **Markov Clustering**
+
+### Placement Strategy
+- **Heuristic Bin Packing** to place clustered services onto available nodes.
+
+These algorithms can run individually or in combination (e.g., clustering followed by bin packing) to derive efficient placement plans.
+
+---
+
+## 🗂️ Project Structure
+
+| File | Description |
+|------|-------------|
+| `mst.py` | Implementation of **Maximum Standard Deviation Reduction** clustering on a **Maximum Spanning Tree** |
+| `ap.py` | Implementation of the **Affinity Propagation** clustering algorithm |
+| `markov.py` | Implementation of **Markov Clustering** algorithm |
+| `Bin_Packing.py` | **Heuristic packing** strategy for optimized node allocation |
+| `GCP_Metrics.py` | Python class to **collect Prometheus metrics** and **Kiali graph data** |
+| `Application_Graph.py` | Constructs **graph representations of applications** using affinity metrics |
+| `exps.py`, `exps2.py`, `exps3.py` | Scripts that run **mock experiments** combining clustering and packing strategies; calculate: <ul><li>Egress traffic reduction</li><li>Node count required</li><li>Execution time of each approach</li></ul> |
+
+---
+
+## 🧪 Experiments
+
+Each `exps*.py` script simulates placement strategies under realistic conditions using affinity-based graphs derived from production metrics.
+
+### Applications Tested
+- 🧭 **iXen** – IoT Sensor platform
+- 🛍️ **Online Boutique** – Cloud-native microservices demo app
+
+> 📁 Each app and its test code are maintained in **separate repositories**.
+
+---
+
+## 🌐 Deployment Architecture
+
+This system is intended for deployment in a **Kubernetes cluster on GCP** with the following components:
+
+### Required Services
+- ✅ **Istio Service Mesh** with **Envoy sidecar proxies** injected
+- 📊 **Prometheus** for scraping custom metrics
+- 📈 **Kiali** for exporting service topology as a graph
+
+### Installation Guides
+- 📘 [Install Istio](https://istio.io/latest/docs/setup/install/istioctl/)
+- 📘 [Install Kiali](https)
