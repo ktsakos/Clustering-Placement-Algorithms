@@ -38,7 +38,9 @@ These algorithms can run individually or in combination (e.g., clustering follow
 | `Bin_Packing.py` | **Heuristic packing** strategy for optimized node allocation |
 | `GCP_Metrics.py` | Python class to **collect Prometheus metrics** and **Kiali graph data** |
 | `Application_Graph.py` | Constructs **graph representations of applications** using affinity metrics |
-| `exps.py`, `exps2.py`, `exps3.py` | Scripts that run **mock experiments** combining clustering and packing strategies; calculate: <ul><li>Egress traffic reduction</li><li>Node count required</li><li>Execution time of each approach</li></ul> |
+| `exps.py` | Script for **testing algorithm execution** with mock input data. Runs experiments combining clustering and packing strategies, measuring metrics such as egress traffic reduction, node count required, and execution time. **Note:** The `GCP_Metrics` class should be instantiated with the current IPs and ports for Prometheus and Kiali, as shown below: <br> `GCP_Metrics(vm_external_ip, kiali_port, prometheus_port, namespace)` |
+| `exps2.py` | Script for simulating the **Online Boutique app** placement using the clustering and packing algorithms. Calculates metrics like traffic reduction, node usage, and execution time. **Note:** The `GCP_Metrics` class should be instantiated with the current IPs and ports for Prometheus and Kiali, as shown below: <br> `GCP_Metrics(vm_external_ip, kiali_port, prometheus_port, namespace)` |
+| `exps3.py` | Script for testing the **iXen platform** placement using the same clustering and packing strategies, focused on measuring traffic reduction and resource optimization. **Note:** The `GCP_Metrics` class should be instantiated with the current IPs and ports for Prometheus and Kiali, as shown below: <br> `GCP_Metrics(vm_external_ip, kiali_port, prometheus_port, namespace)` |
 
 ---
 
@@ -83,4 +85,6 @@ This system is intended for deployment in a **Kubernetes cluster on GCP** with t
 3. Configure endpoints for:
    - **Kiali API access**
    - **Prometheus API access**
-4. Clone this repository and install Python dependencies:
+4. **Edit the `GCP_Metrics` instantiation** in all three `exps.py`, `exps2.py`, and `exps3.py` files with the current IPs and ports for Prometheus and Kiali. Update the following line:
+   ```python
+   GCP_Metrics(vm_external_ip, kiali_port, prometheus_port, namespace)
