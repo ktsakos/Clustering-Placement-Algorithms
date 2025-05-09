@@ -8,7 +8,7 @@ This repository hosts the **Graph Clustering and Placement Algorithms** develope
 
 _This work is conducted in the context of my MSc thesis._
 
-👉 **[Thesis Document – Link to be added here]**
+👉 **[Thesis Document – https://doi.org/10.26233/heallink.tuc.103073]**
 
 ---
 
